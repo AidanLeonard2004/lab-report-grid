@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Reports Grid</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        th {
+            background: #ddd;
+        }
+
+        td:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Lab Report Grid</h2>
+
+<table id="grid"></table>
+
+<script>
+
+const alcohols = ["Methyl","Ethyl","Propyl","Butyl","Pentyl",
+                  "Hexyl","Heptyl","Octyl","Nonyl","Decyl"];
+
+const acids = [
+    "Formic",
+    "Acetic",
+    "Propionic",
+    "Butyric",
+    "Valeric",
+    "Caproic",
+    "Enanthic",
+    "Caprylic",
+    "Pelargonic",
+    "Capric"
+];
+
+const letters = "ABCDEFGHIJ";
+
+const table = document.getElementById("grid");
+
+// ---------------- HEADER ----------------
+let header = "<tr><th></th>";
+
+for (let j = 0; j < alcohols.length; j++) {
+    header += `<th>${alcohols[j]}</th>`;
+}
+header += "</tr>";
+table.innerHTML += header;
+
+// ---------------- GRID ----------------
+for (let i = 0; i < acids.length; i++) {
+
+    let row = `<tr><th>${acids[i]} Acid</th>`;
+
+    for (let j = 0; j < alcohols.length; j++) {
+        row += `<td onclick="openFile(${i}, ${j})">Open</td>`;
+    }
+
+    row += "</tr>";
+    table.innerHTML += row;
+}
+
+// ---------------- OPEN FILE ----------------
+function openFile(acidIndex, alcoholIndex) {
+
+    const letter = letters[alcoholIndex];
+    const acidNumber = acidIndex + 1;
+
+    const alcohol = alcohols[alcoholIndex];
+    const acid = acids[acidIndex];
+
+    // Folder: "6 Caproic Acid"
+    const folder = `${acidNumber} ${acid} Acid`;
+
+    // File: "J6 Decyl Caproate.pdf"
+    const file = `${letter}${acidNumber} ${alcohol} ${acid}ate.pdf`;
+
+    const path = `./LabReports/${folder}/${file}`;
+
+    console.log("Opening:", path);
+
+    window.open(encodeURI(path), "_blank");
+}
+
+</script>
+
+</body>
+</html>
